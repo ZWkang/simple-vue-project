@@ -5,12 +5,12 @@
 	<div class="detailbox" v-show="loading">
 		<div class="detailtitle">
 			<h2>{{ art.title }}
-				<span class="collection">{{ collection.title }}</span>
+				<span class="collection" @click="is_collection">{{ collection.title }}</span>
 			</h2>
 						
 			<div class="detailinfo">
 				<span>发布于{{ getLastTime(art.create_at)}}</span>
-				<span>作者{{art.author}}</span>
+				<span><router-link :to="'/self/' + art.author">作者{{art.author}}</router-link></span>
 				<span>{{art.visitcount}}次浏览</span>
 				<span>{{art.replycount}}次回复</span>
 			</div>
@@ -29,12 +29,12 @@
 
 						<span class="re-time">{{index+1}}楼 {{getLastTime(item.create_at)}}</span>
 						<div class="replyhandle">
-							<em class="upbtn" :class="{'isup':item.is_uped}">{{is_up(item.is_uped)}}</em>
+							<em class="upbtn"  @click="likeclick(item.id, index)" :class="{'islike':item.is_uped}">{{is_up(item.is_uped)}}</em>
 							<em class="deletebtn" v-if="loginname === item.author.loginname" >删</em>
 							<em class="replybtn">回</em>
 						</div>
 					</div>
-					<div class="repliescon">
+					<div class="replies">
 						<div class="repliescontent" v-html="item.content">
 						</div>
 					</div>
@@ -62,11 +62,12 @@
 			.collection{
                   cursor:pointer;
 				display: inline-block;
-				background-color: #08bd01;
+				background-color: #00b0f0;
 				font-size: 12px;
 				border-radius: 2px;
 				padding: 3px 5px;
 				float:right;
+                  box-shadow:1px 1px #000;
 			}
 		}
 		.detailinfo{
@@ -82,6 +83,13 @@
 			}
              span:nth-child(4n+2),span:nth-child(4n+1){
                 flex:2;
+             }
+             span:nth-child(4n+2){
+              a{
+                color:#aaa;
+                text-decoration:none;
+              }
+              
              }
 		}
 	}
@@ -189,6 +197,8 @@
                           cursor: pointer;
 						padding: 3px;
 						color: #fff;
+                          font-size:14px;
+                          line-height:16px;
 						border-radius: 2px;
 					}
 					.upbtn{
@@ -203,10 +213,13 @@
                       .isup{
                         background-color:#08bd01;
                       }
+                      .islike{
+                        background-color: #EB3F2F;
+                      }
 				}
 
 			}
-			.repliescon{
+			.replies{
 				margin-top: 10px;
                   img{
                     width:100%;
@@ -256,10 +269,13 @@ export default {
         loginname: '',
         create_at: null
       },
+      topid: '',
       collection: {
         'is': false,
         'title': '收藏'
-      }
+      },
+      replies: [],
+      loginname: ''
     }
   },
   components: {
@@ -275,9 +291,50 @@ export default {
       }
       return '赞'
     },
-    countdays: function (number) {
+    likeclick: function (replyid, index) {
+      if (this.isLogin) {
+        const param = {
+          'accesstoken': this.$store.getters.loginstate.accesstoken
+        }
+        axios.post('https://cnodejs.org/api/v1/reply/' + replyid + '/ups', param).then((response) => {
+          const rpdata = response.data
+          if (rpdata.action === 'up') {
+            this.art.reply[index].is_uped = true
+          } else {
+            this.art.reply[index].is_uped = false
+          }
+        }, (e) => {
+          console.log(e)
+        })
+      }
     },
-    docollection: function () {
+    is_collection: function () {
+      if (this.isLogin) {
+        if (!this.collection.is) {
+          const param = {
+            'accesstoken': this.$store.getters.loginstate.accesstoken,
+            'topic_id': this.topid
+          }
+          // console.log(param)
+          axios.post('https://cnodejs.org/api/v1/topic_collect/collect', param).then((response) => {
+            this.collection.is = true
+            this.collection.title = '已收藏'
+          }, (e) => {
+            console.log(e)
+          })
+        } else {
+          const param = {
+            'accesstoken': this.$store.getters.loginstate.accesstoken,
+            'topic_id': this.topid
+          }
+          axios.post('https://cnodejs.org/api/v1/topic_collect/de_collect', param).then((response) => {
+            this.collection.is = false
+            this.collection.title = '收藏'
+          }, (e) => {
+            console.log(e)
+          })
+        }
+      }
     },
     getLastTime: function (creatTime) {
       let oldtime = new Date(creatTime)
@@ -316,15 +373,26 @@ export default {
       this.art.author = data.author.loginname
       this.art.create_at = data.create_at
       this.loading = !this.loading
+      this.topid = this.$route.params.id
     }, (e) => {
       console.log(e)
     })
-    // axios.get('')
     this.loginname = this.$store.getters.loginstate.loginname
+    axios.get('https://cnodejs.org/api/v1/topic_collect/' + this.loginname).then((response) => {
+      const cdata = response.data
+      for (let i of cdata.data) {
+        if (i['id'] === topic) {
+          this.collection.is = true
+          this.collection.title = '已收藏'
+        }
+      }
+    }, (e) => {
+      console.log(e)
+    })
   },
   computed: {
     isLogin: function () {
-      this.$store.getters
+      return this.$store.getters.getLoginState
     }
   }
 }
