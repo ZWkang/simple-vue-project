@@ -1,23 +1,29 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <router-view></router-view>
+  	<v-header></v-header>
+    	<router-view></router-view>
+	<v-top></v-top>
   </div>
 </template>
 
 <script>
+import header from '@/components/Headers'
+import backtop from '@/components/backtop'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    'v-header': header,
+    'v-top': backtop
+  }
 }
 </script>
 
 <style>
+@import url('./assets/reset.css');
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>
