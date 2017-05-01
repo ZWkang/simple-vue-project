@@ -1,33 +1,29 @@
 <template>
-  <div>
-    <div class="artlist"> 
-             <router-link v-for="item in artcleList" :to="{name:'detail',params:{id:item.id}}" :key="item.id" class="linkbtn">
-      <div class="artlistCon" >
-        <router-link :to="'/self/' + item.author.loginname">
-        <div class="avatar">
-          <img :src="item.author.avatar_url" alt="">
-        </div>
-        </router-link>
-        <div class="art-inf">
-          <em :class="{good : item.good, top : item.top}">
-            {{gettab(item.tab, item.good, item.top)}}
-          </em>
-          <a class="title">{{item.title}}</a>
-          <span class="rp-count">{{item.reply_count}}/{{item.visit_count}}</span>
-          <span class="last-time">{{ getLastTime(item.create_at)}}</span>
-        </div>
-      </div>
-<!--      <div class="loadingbox" v-show="showLoading">
-        <div class="loading">loading........</div>
-      </div> -->
-              
-            </router-link>
-            <v-loading :isLoading="!scroll" :styles="stylea"></v-loading>
-    </div>
-    <v-top></v-top>
-  </div>
+	<div>
+		<div class="artlist"> 
+			<router-link v-for="item in artcleList" :to="{name:'detail',params:{id:item.id}}" :key="item.id" class="linkbtn">
+				<div class="artlistCon" >
+					<router-link :to="'/self/' + item.author.loginname">
+						<div class="avatar">
+							<img :src="item.author.avatar_url" alt="">
+						</div>
+					</router-link>
+					<div class="art-inf">
+						<em :class="{good : item.good, top : item.top}">
+							{{gettab(item.tab, item.good, item.top)}}
+						</em>
+						<a class="title">{{item.title}}</a>
+						<span class="rp-count">{{item.reply_count}}/{{item.visit_count}}</span>
+						<span class="last-time">{{ getLastTime(item.create_at)}}</span>
+					</div>
+				</div>
+			</router-link>
+			<v-loading :isLoading="!scroll" :styles="stylea"></v-loading>
+		</div>
+		<v-top></v-top>
+	</div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 .artlist{
   overflow: hidden;
   margin: 0 auto;
@@ -93,7 +89,7 @@
       }
       .rp-count{
         vertical-align:left;
-        margin-left: 12%;
+        margin-left: 15%;
         font-size: 13px;
         padding: 2px 4px;
       }
@@ -104,15 +100,6 @@
         font-size: 13px;
         padding: 2px 0px;
       }
-    }
-  }
-  .loadingbox{
-    position:relative;
-    width1:100%;
-    height:40px;
-    .loading{
-      width:100%;
-      text-align:center;
     }
   }
 }
@@ -145,7 +132,7 @@ export default {
   },
   mounted: function () {
     this.unfun = debounce(this.scrollAction, 1000)
-    console.log('123')
+    // console.log('123')
     this.getList()
     window.addEventListener('scroll', this.unfun, false)
   },
@@ -173,10 +160,6 @@ export default {
       }, (err) => {
         console.log(err)
       })
-    },
-    bulidsss: function (str) {
-      console.log(str)
-      return str
     },
     gettab: function (tab, good, top) {
       let str = ''

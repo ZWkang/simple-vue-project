@@ -1,131 +1,130 @@
 <template>
 <div>
-<div class="usermessage">
-	<div class="userinfo">
-		<div class="usermessage-title">
-			个人信息
-		</div>
-		<div class="userinfobox">
-			<div class="useravatar">
-				<img :src="art.avatar_url" alt="">
+	<div class="usermessage">
+		<div class="userinfo">
+			<div class="usermessage-title">
+				个人信息
 			</div>
-			<div class="userbase">
-				<p class="name">{{art.loginname}}</p>
+			<div class="userinfobox">
+				<div class="useravatar">
+					<img :src="art.avatar_url" alt="">
+				</div>
+				<div class="userbase">
+					<p class="name">{{art.loginname}}</p>
 
-				<span>积分：{{art.score}}</span>
-				<span>注册时间：{{art.createday}}</span>
-			</div>
-		</div>
-	</div>
-	<div class="usertopics">
-		<div class="usermessage-title">
-			创建主题
-		</div>
-		<div class="usertopicsbox">
-			<div class="topicsitem" v-for="item in recents">
-				<a href="javascript:void(0)" class="avatar">
-					<img :src="item.author.avatar_url" alt="">
-				</a>
-				<div class="art-inf">
-					<a href="javascript:void(0)" class="title">{{item.title}}</a>
-					<span class="last-time">{{ getLastTime(item.last_reply_at) }}</span>
+					<span>积分：{{art.score}}</span>
+					<span>注册时间：{{art.createday}}</span>
 				</div>
 			</div>
-			<div class="nodata" v-if="!recents">
-				<!-- <div class="nodating"></div> -->
-				<h2>还没有创建主题</h2>
+		</div>
+		<div class="usertopics">
+			<div class="usermessage-title">
+				创建主题
 			</div>
-		</div>
-	</div>
-	<div class="userreplies">
-		<div class="usermessage-title">
-			参与主题
-		</div>
-		<div class="userrepliesbox">
-			<div class="userrepliesitem" v-for="item in replies">
-				<a href="javascript:void(0)" class="avatar">
-					<img :src="item.author.avatar_url" alt="">
-				</a>
-				<div class="art-inf">
-					<a href="javascript:void(0)" class="title">{{item.title}}</a>
-					<span class="last-time">{{ getLastTime(item.last_reply_at) }}</span>
+			<div class="usertopicsbox">
+				<div class="topicsitem" v-for="item in recents">
+					<a :href="'/self/' + item.author.loginname" class="avatar">
+						<img :src="item.author.avatar_url" alt="">
+					</a>
+					<div class="art-inf">
+						<a :href="'/detail/' + item.id" class="title">{{item.title}}</a>
+						<span class="last-time">{{ getLastTime(item.last_reply_at) }}</span>
+					</div>
+				</div>
+				<div class="nodata" v-if="!recents">
+					<!-- <div class="nodating"></div> -->
+					<h2>还没有创建主题</h2>
 				</div>
 			</div>
-			<div class="nodata" v-if="!replies">
-				<!-- <div class="nodating"></div> -->
-				<h2>还没有参与主题</h2>
+		</div>
+		<div class="userreplies">
+			<div class="usermessage-title">
+				参与主题
 			</div>
-		</div>
-	</div>
-	<div class="usercollection">
-		<div class="usermessage-title">
-			收藏主题
-		</div>
-		<div class="usercollectionbox">
-			<div class="usercollectionitem" v-for="item in collections">
-				<a href="javascript:void(0)" class="avatar">
-					<img :src="item.author.avatar_url" alt="">
-				</a>
-				<div class="art-inf">
-					<a href="javascript:void(0)" class="title">{{item.title}}</a>
-					<span class="last-time">{{ getLastTime(item.last_reply_at) }}</span>
+			<div class="userrepliesbox">
+				<div class="userrepliesitem" v-for="item in replies">
+					<a :href="'/self/' + item.author.loginname" class="avatar">
+						<img :src="item.author.avatar_url" alt="">
+					</a>
+					<div class="art-inf">
+						<a :href="'/detail/' + item.id" class="title">{{item.title}}</a>
+						<span class="last-time">{{ getLastTime(item.last_reply_at) }}</span>
+					</div>
+				</div>
+				<div class="nodata" v-if="!replies">
+					<!-- <div class="nodating"></div> -->
+					<h2>还没有参与主题</h2>
 				</div>
 			</div>
-			<div class="nodata" v-if="!collections">
-				<!-- <div class="nodating"></div> -->
-				<h2>还没有收藏主题</h2>
+		</div>
+		<div class="usercollection">
+			<div class="usermessage-title">
+				收藏主题
+			</div>
+			<div class="usercollectionbox">
+				<div class="usercollectionitem" v-for="item in collections">
+					<a href="javascript:void(0)" class="avatar">
+						<img :src="item.author.avatar_url" alt="">
+					</a>
+					<div class="art-inf">
+						<a :href="'/detail/' + item.id" class="title">{{item.title}}</a>
+						<span class="last-time">{{ getLastTime(item.last_reply_at) }}</span>
+					</div>
+				</div>
+				<div class="nodata" v-if="!collections">
+					<!-- <div class="nodating"></div> -->
+					<h2>还没有收藏主题</h2>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 </div>
 </template>
 <style lang="scss">
 @mixin basestyle{
-			position: relative;
-			padding: 10px;
-			background-color:#fff;
-			border-bottom:1px solid #e1e1e1;
-			overflow:hidden;
-			.avatar{
-
-				display:block;
-				float:left;
-				width:2rem;
-				height:2rem;
-				img{
-					width:100%;
-					height:100%;
-				}
-			}
-			.art-inf{
-				position:relative;
-				float:left;
-				width:86%;
-				height:2rem;
-				line-height:2rem;
-				margin-left:15px;
-				.title{
+	position: relative;
+	padding: 10px;
+	background-color:#fff;
+	border-bottom:1px solid #e1e1e1;
+	overflow:hidden;
+	.avatar{
+		display:block;
+		float:left;
+		width:2rem;
+		height:2rem;
+		img{
+			width:100%;
+			height:100%;
+		}
+	}
+	.art-inf{
+		position:relative;
+		float:left;
+		width:86%;
+		height:2rem;
+		line-height:2rem;
+		margin-left:15px;
+		.title{
 				
-					display:inline-block;
-					overflow:hidden;
-					width:80%;
-					height:2rem;
-					color:#000;
-					font-size:1.2rem;
-					line-height:2rem;
-					white-space:nowrap;
-					text-overflow: ellipsis;
-					text-decoration:none;
-				}
-				.last-time{
-					position:absolute;
-					right:0;
-					bottom:0;
-					font-size:12px;
-					padding:2px 4px;
-				}
-			}
+			display:inline-block;
+			overflow:hidden;
+			width:80%;
+			height:2rem;
+			color:#000;
+			font-size:1.2rem;
+			line-height:2rem;
+			white-space:nowrap;
+			text-overflow: ellipsis;
+			text-decoration:none;
+		}
+		.last-time{
+			position:absolute;
+			right:0;
+			bottom:0;
+			font-size:12px;
+			padding:2px 4px;
+		}
+	}
 }
 .usermessage{
 	overflow: hidden;
@@ -248,7 +247,7 @@ export default {
     const username = this.$route.params.loginname
     axios.get('https://cnodejs.org/api/v1/user/' + username).then((response) => {
       if (response.data.success) {
-        console.log(response)
+        // console.log(response)
         const datas = response.data
         this.art.loginname = datas.data.loginname
         this.art.avatar_url = datas.data.avatar_url
@@ -264,6 +263,8 @@ export default {
       if (response.data.success) {
         this.collections = response.data.data.length === 0 ? false : response.data.data
       }
+    }, (e) => {
+      console.log(e)
     })
   }
 }

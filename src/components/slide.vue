@@ -29,7 +29,7 @@
 				<li><router-link to="/list/job" >招聘</router-link></li>
 				<li><router-link to="/list/share" >分享</router-link></li>
 				<li>消息</li>
-				<li>关于</li>
+				<li><router-link to="/about">关于</router-link></li>
 			</ul>
 		</div>
 	</div>
