@@ -1,14 +1,13 @@
 <template>
 	<div class="slide">
 		<div class="slide-item" :class="{'show-menu':show}">
-			<router-link  v-bind:to="loginname">
+			<router-link  :to="{name: 'self', params: {loginname: loginname}}">
 				<div class="user-info" v-show="loginstate">
 					<img :src="userinfo.avatar_url" alt="">
-					
 	             		</div>
 			</router-link>
 	             		<div class="base" v-show="loginstate">
-	             			<router-link  v-bind:to="loginname">
+	             			<router-link  :to="{name: 'self', params: {loginname: loginname}}">
 	             			<p>{{userinfo.loginname}}</p>
 	             			</router-link>
 	             			<div class="baseinfo">
@@ -18,18 +17,18 @@
 	             		</div>
 			
 
-			<router-link to="/login" class="gologin">
+			<router-link :to="{name: 'login'}" class="gologin">
              			<h2 v-if="!loginstate">登录</h2>
              		</router-link>
 
 			<ul>
-				<li><router-link to="/list/all" >全部</router-link></li>
-				<li><router-link to="/list/good" >精华</router-link></li>
-				<li><router-link to="/list/ask" >回答</router-link></li>
-				<li><router-link to="/list/job" >招聘</router-link></li>
-				<li><router-link to="/list/share" >分享</router-link></li>
+				<li><router-link :to="{name: 'list', params: {artcle: 'all'}}">全部</router-link></li>
+				<li><router-link :to="{name: 'list', params: {artcle: 'good'}}">精华</router-link></li>
+				<li><router-link :to="{name: 'list', params: {artcle: 'ask'}}">回答</router-link></li>
+				<li><router-link :to="{name: 'list', params: {artcle: 'job'}}">招聘</router-link></li>
+				<li><router-link :to="{name: 'list', params: {artcle: 'share'}}">分享</router-link></li>
 				<li>消息</li>
-				<li><router-link to="/about">关于</router-link></li>
+				<li><router-link :to="{name: 'about'}">关于</router-link></li>
 			</ul>
 		</div>
 	</div>
@@ -139,7 +138,7 @@ export default {
       return this.$store.state.loginstate
     },
     loginname () {
-      return '/self/' + this.$store.state.user.loginname
+      return this.$store.state.user.loginname || ' '
     },
     userinfo () {
       return this.$store.state.user

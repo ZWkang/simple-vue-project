@@ -10,7 +10,7 @@
 						
 			<div class="detailinfo">
 				<span>发布于{{ getLastTime(art.create_at)}}</span>
-				<span><router-link :to="'/self/' + art.author">作者{{art.author}}</router-link></span>
+				<span><router-link :to="{ name: 'self', params: {loginname: art.author}}">作者{{art.author}}</router-link></span>
 				<span>{{art.visitcount}}次浏览</span>
 				<span>{{art.replycount}}次回复</span>
 			</div>
@@ -22,7 +22,7 @@
 			<ul>
 				<li v-for="(item,index) in art.reply">
 					<div class="author_content">
-                          <router-link :to="'/self/' + item.author.loginname">
+                          <router-link :to="{ name: 'self', params: {loginname: item.author.loginname}}">
                           <img :src="item.author.avatar_url" alt="">
                           <span>{{ item.author.loginname}}</span>
                           </router-link>
@@ -378,17 +378,19 @@ export default {
       console.log(e)
     })
     this.loginname = this.$store.getters.loginstate.loginname
-    axios.get('https://cnodejs.org/api/v1/topic_collect/' + this.loginname).then((response) => {
-      const cdata = response.data
-      for (let i of cdata.data) {
-        if (i['id'] === topic) {
-          this.collection.is = true
-          this.collection.title = '已收藏'
+    if (this.isLogin) {
+      axios.get('https://cnodejs.org/api/v1/topic_collect/' + this.loginname).then((response) => {
+        const cdata = response.data
+        for (let i of cdata.data) {
+          if (i['id'] === topic) {
+            this.collection.is = true
+            this.collection.title = '已收藏'
+          }
         }
-      }
-    }, (e) => {
-      console.log(e)
-    })
+      }, (e) => {
+        console.log(e)
+      })
+    }
   },
   computed: {
     isLogin: function () {

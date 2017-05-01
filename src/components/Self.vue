@@ -23,11 +23,11 @@
 			</div>
 			<div class="usertopicsbox">
 				<div class="topicsitem" v-for="item in recents">
-					<a :href="'/self/' + item.author.loginname" class="avatar">
+					<router-link :to="{ name: 'self', params: { loginname : item.author.loginname }}" class="avatar">
 						<img :src="item.author.avatar_url" alt="">
-					</a>
+					</router-link>
 					<div class="art-inf">
-						<a :href="'/detail/' + item.id" class="title">{{item.title}}</a>
+						<router-link :to="{ name: 'detail', params: { id : item.id}}" class="title">{{item.title}}</router-link>
 						<span class="last-time">{{ getLastTime(item.last_reply_at) }}</span>
 					</div>
 				</div>
@@ -43,11 +43,11 @@
 			</div>
 			<div class="userrepliesbox">
 				<div class="userrepliesitem" v-for="item in replies">
-					<a :href="'/self/' + item.author.loginname" class="avatar">
+					<router-link :to="{ name: 'self', params: { loginname : item.author.loginname }}" class="avatar">
 						<img :src="item.author.avatar_url" alt="">
-					</a>
+					</router-link>
 					<div class="art-inf">
-						<a :href="'/detail/' + item.id" class="title">{{item.title}}</a>
+						<router-link :to="{ name: 'detail', params: { id : item.id}}" class="title">{{item.title}}</router-link>
 						<span class="last-time">{{ getLastTime(item.last_reply_at) }}</span>
 					</div>
 				</div>
@@ -63,11 +63,11 @@
 			</div>
 			<div class="usercollectionbox">
 				<div class="usercollectionitem" v-for="item in collections">
-					<a href="javascript:void(0)" class="avatar">
+					<router-link :to="{ name: 'self', params: { loginname : item.author.loginname }}" class="avatar">
 						<img :src="item.author.avatar_url" alt="">
-					</a>
+					</router-link>
 					<div class="art-inf">
-						<a :href="'/detail/' + item.id" class="title">{{item.title}}</a>
+						<router-link :to="{ name: 'detail', params: { id : item.id}}" class="title">{{item.title}}</router-link>
 						<span class="last-time">{{ getLastTime(item.last_reply_at) }}</span>
 					</div>
 				</div>
@@ -218,6 +218,15 @@ export default {
       recents: []
     }
   },
+  created: function () {
+    this.getdata()
+  },
+  watch: {
+    '$route': 'getdata'
+  },
+  compouted: {
+
+  },
   methods: {
     getLastTime: function (creatTime) {
       let oldtime = new Date(creatTime)
@@ -241,31 +250,32 @@ export default {
         str = month + '月前'
       }
       return str
+    },
+    getdata: function () {
+      const username = this.$route.params.loginname
+      // console.log(username)
+      axios.get('https://cnodejs.org/api/v1/user/' + username).then((response) => {
+        if (response.data.success) {
+          // console.log(response)
+          const datas = response.data
+          this.art.loginname = datas.data.loginname
+          this.art.avatar_url = datas.data.avatar_url
+          this.art.createday = datas.data.create_at.substring(0, 10)
+          this.art.score = datas.data.score
+          this.replies = datas.data.recent_replies.length === 0 ? false : datas.data.recent_replies
+          this.recents = datas.data.recent_topics.length === 0 ? false : datas.data.recent_topics
+        }
+      }, (e) => {
+        console.log(e)
+      })
+      axios.get('https://cnodejs.org/api/v1/topic_collect/' + username).then((response) => {
+        if (response.data.success) {
+          this.collections = response.data.data.length === 0 ? false : response.data.data
+        }
+      }, (e) => {
+        console.log(e)
+      })
     }
-  },
-  mounted: function () {
-    const username = this.$route.params.loginname
-    axios.get('https://cnodejs.org/api/v1/user/' + username).then((response) => {
-      if (response.data.success) {
-        // console.log(response)
-        const datas = response.data
-        this.art.loginname = datas.data.loginname
-        this.art.avatar_url = datas.data.avatar_url
-        this.art.createday = datas.data.create_at.substring(0, 10)
-        this.art.score = datas.data.score
-        this.replies = datas.data.recent_replies.length === 0 ? false : datas.data.recent_replies
-        this.recents = datas.data.recent_topics.length === 0 ? false : datas.data.recent_topics
-      }
-    }, (e) => {
-      console.log(e)
-    })
-    axios.get('https://cnodejs.org/api/v1/topic_collect/' + username).then((response) => {
-      if (response.data.success) {
-        this.collections = response.data.data.length === 0 ? false : response.data.data
-      }
-    }, (e) => {
-      console.log(e)
-    })
   }
 }
 </script>

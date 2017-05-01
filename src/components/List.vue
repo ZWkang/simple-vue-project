@@ -3,7 +3,7 @@
 		<div class="artlist"> 
 			<router-link v-for="item in artcleList" :to="{name:'detail',params:{id:item.id}}" :key="item.id" class="linkbtn">
 				<div class="artlistCon" >
-					<router-link :to="'/self/' + item.author.loginname">
+					<router-link :to="{ name: 'self', params: {loginname: item.author.loginname}}">
 						<div class="avatar">
 							<img :src="item.author.avatar_url" alt="">
 						</div>
@@ -12,7 +12,7 @@
 						<em :class="{good : item.good, top : item.top}">
 							{{gettab(item.tab, item.good, item.top)}}
 						</em>
-						<a class="title">{{item.title}}</a>
+						<a class="title" href="javascript:void(0)">{{item.title}}</a>
 						<span class="rp-count">{{item.reply_count}}/{{item.visit_count}}</span>
 						<span class="last-time">{{ getLastTime(item.create_at)}}</span>
 					</div>
