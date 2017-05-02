@@ -1,6 +1,6 @@
 # simple-vue-project
 
-> a simple Vue.js project
+> a simple cnodejs project
 ---
 # 最丑滴cnode?
 - #### 你的一个星星
@@ -17,7 +17,7 @@
 ## 未来可能有功能
 - [ ] 回复评论
 - [ ] 评论
-- [ ] 个人信息查看
+- [ ] 个人消息查看
 - [ ] 删除功能
 ---
 ## vue锻炼程序
