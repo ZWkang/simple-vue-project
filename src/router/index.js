@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 // import Hello from '@/components/Hello'
-// import topic from '@/components/topic'
+import Post from '@/components/Post'
 import login from '@/components/Login'
 import self from '@/components/Self'
 import about from '@/components/About'
@@ -22,9 +22,24 @@ export default new Router({
       component: about
     },
     {
+      path: '/post',
+      name: 'post',
+      component: Post
+    },
+    {
+      path: '/post/:topicid',
+      name: 'editpost',
+      component: Post
+    },
+    {
       path: '/login',
       name: 'login',
       component: login
+    },
+    {
+      path: '/list',
+      name: 'lists',
+      component: list
     },
     {
       path: '/list/:artcle',
