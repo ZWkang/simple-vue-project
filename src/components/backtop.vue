@@ -39,7 +39,7 @@ export default {
         this.showtop = false
       }
     },
-    beforeDestroy: function () {
+    destroyed: function () {
       window.removeEventListener('scroll', this.fun, false)
     }
   }

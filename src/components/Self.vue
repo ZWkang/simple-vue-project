@@ -128,7 +128,7 @@
 }
 .usermessage{
 	overflow: hidden;
-	margin: 3rem 5px;
+	margin: 0 5px;
 	.userinfobox{
 		padding: 10px 0;
 		border: 2px solid #ccc;

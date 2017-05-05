@@ -81,7 +81,7 @@ export default {
           'loginname': response.data.loginname
         }
         this.$store.dispatch('LOGIN', reps)
-        this.$router.push('/')
+        this.$router.replace('/')
         // 简单的登录修改store
       }, debounce((e) => {
         this.estate = true

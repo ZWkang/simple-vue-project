@@ -17,6 +17,12 @@
 		</div>
 		<div class="detailcontent" v-html="art.contens">
 		</div>
+           <div class="detailoperation" v-if="isyourself(art.author_id)">
+            <ul>
+              <li><router-link :to="{name: 'editpost', params: {topicid: this.topid}}">修改</router-link></li>
+              <li><!-- <a @click.stop="deltopic">删除</a> --></li>
+            </ul>
+           </div>
 			<div class="detailreplies">
 			<div class="repliescount">共有<span>{{ this.art.replycount}}</span>条回复</div>
 			<ul>
@@ -26,21 +32,22 @@
                           <img :src="item.author.avatar_url" alt="">
                           <span>{{ item.author.loginname}}</span>
                           </router-link>
-
 						<span class="re-time">{{index+1}}楼 {{getLastTime(item.create_at)}}</span>
 						<div class="replyhandle">
 							<em class="upbtn"  @click="likeclick(item.id, index)" :class="{'islike':item.is_uped}">{{is_up(item.is_uped)}}</em>
-							<em class="deletebtn" v-if="loginname === item.author.loginname" >删</em>
-							<em class="replybtn">回</em>
+							<!-- <em class="deletebtn" v-if="loginname === item.author.loginname" >删</em> -->
+							<em class="replybtn" @click="changereplyitem(item.id)">回</em>
 						</div>
 					</div>
 					<div class="replies">
 						<div class="repliescontent" v-html="item.content">
 						</div>
 					</div>
+                            <v-reply v-bind:reply_to="'@' + item.author.loginname" v-bind:reply_id="item.id" :topic_id="topid" v-if="item.id === replyingid && isLogin"></v-reply>
 				</li>
 			</ul>
 		</div>
+      <v-reply :topic_id="topid" v-if="isLogin"></v-reply>
 	</div>
   </div>
 </template>
@@ -94,17 +101,17 @@
 		}
 	}
 	.detailcontent{
-         width: 100%;
+           width: 100%;
 		margin:0 0px;
 		border-top:1px #000 solid;
 		font-size: 15px;
 		line-height: 23px;
-         padding: 10px 0;
-         border-bottom: 1px #000 solid;
-         h1{
-          font-size: 32px;
-          margin: 10px 0;
-         }
+           padding: 10px 0;
+           border-bottom: 1px #000 solid;
+           h1{
+            font-size: 32px;
+            margin: 10px 0;
+           }
          blockquote{
           font-weight:700;
          }
@@ -158,6 +165,27 @@
           }
          }
 	}
+      .detailoperation{
+        width: 100%;
+        height: 2rem;
+        line-height:2rem;
+
+        ul{
+          width: 100%;
+          height: 100%;
+          display: flex;
+          li{
+            flex: 1;
+            border:1px solid #f0f0f0;
+            border-top:0;
+            text-align: center;
+            a{
+              text-decoration:none;
+              display:block;
+            }
+          }
+        }
+      }
 	.detailreplies{
 		width: 100%;
 		margin-botton: 20px;
@@ -177,7 +205,7 @@
 					display:inline-block;
 				}
                   .re-time{
-                    color: #08c;
+                    color: #000000;
                     font-size:14px;
                   }
 				span{
@@ -253,6 +281,7 @@
 <script>
 import axios from 'axios'
 import loadings from '@/components/loading'
+import replyitem from '@/components/Reply'
 export default {
   data () {
     return {
@@ -267,7 +296,8 @@ export default {
         flag: false,
         contens: '',
         loginname: '',
-        create_at: null
+        create_at: null,
+        author_id: ''
       },
       topid: '',
       collection: {
@@ -275,21 +305,39 @@ export default {
         'title': '收藏'
       },
       replies: [],
-      loginname: ''
+      loginname: '',
+      replyingid: ''
     }
   },
   components: {
-    'v-loading': loadings
+    'v-loading': loadings,
+    'v-reply': replyitem
   },
   props: {
     title: String
   },
   methods: {
+    // deltopic: function (topicid) {
+    //   const params = {
+    //     topic_id: this.topid,
+    //     accesstoken: this.$store.getters.loginstate.accesstoken,
+    //     author_id: this.art.author_id
+    //   }
+    //   axios.post('https://cnodejs.org/api/v1/topic/' + this.topid + '/delete', params).then((response) => {
+    //     this.$router.replace({name: 'list', params: { artcle: 'all' }})
+    //   })
+    // },
+    isyourself: function (authorid) {
+      return authorid === this.$store.getters.loginstate.id
+    },
     is_up: function (bool) {
       if (bool) {
         return '已赞'
       }
       return '赞'
+    },
+    changereplyitem: function (id) {
+      this.replyingid = id || ''
     },
     likeclick: function (replyid, index) {
       if (this.isLogin) {
@@ -361,6 +409,7 @@ export default {
     }
   },
   mounted: function () {
+    // console.log('mounted 执行了一次')
     const topic = this.$route.params.id
     axios.get('https://cnodejs.org/api/v1/topic/' + topic + '?accesstoken=' + this.$store.getters.loginstate.accesstoken).then((response) => {
       const data = response.data.data
@@ -372,6 +421,7 @@ export default {
       this.art.replycount = data.replies.length
       this.art.author = data.author.loginname
       this.art.create_at = data.create_at
+      this.art.author_id = data.author_id
       this.loading = !this.loading
       this.topid = this.$route.params.id
     }, (e) => {

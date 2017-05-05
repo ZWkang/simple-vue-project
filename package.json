@@ -2,7 +2,7 @@
   "name": "cnode-project",
   "version": "1.0.0",
   "description": "simple cnode project",
-  "author": "ZWkang",
+  "author": "ZWkang <907747874@qq.com>",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",

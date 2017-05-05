@@ -27,7 +27,9 @@
 				<li><router-link :to="{name: 'list', params: {artcle: 'ask'}}">回答</router-link></li>
 				<li><router-link :to="{name: 'list', params: {artcle: 'job'}}">招聘</router-link></li>
 				<li><router-link :to="{name: 'list', params: {artcle: 'share'}}">分享</router-link></li>
-				<li>消息</li>
+				<li  v-if="loginstate"><router-link :to="{name: 'post'}">发布</router-link></li>
+				<li style="color:#555555">消息</li>
+				<li  v-if="loginstate" @click="logout">登出</li>
 				<li><router-link :to="{name: 'about'}">关于</router-link></li>
 			</ul>
 		</div>
@@ -43,7 +45,10 @@
 		bottom: 0;
 		visibility: visible;
 		width: 40%;
-		background-color: #33cccc;
+		border-radius:10px;
+		border-bottom-left-radius: 0;
+		border-top-left-radius: 0;
+		background-color: #99CCFF;
 		z-index:1001;
 		transition:all 0.5s linear;
 		transform :translateX(-100%);
@@ -66,7 +71,7 @@
 				display:block;
 				font-size:32px;
 				text-align:center;
-				margin:20px;
+				margin:60px 0;
 				text-decoration:none;
 				color:black;
 		}
@@ -95,7 +100,7 @@
 		}
 		ul{
 			width:80%;
-			margin:0 auto;
+			margin:100px auto 0;
 			text-align:center;
 			li{
 
@@ -132,16 +137,20 @@ export default {
     }
   },
   methods: {
+    logout: function () {
+      this.$store.dispatch('LOGOUT')
+      this.$router.replace('/')
+    }
   },
   computed: {
     loginstate () {
-      return this.$store.state.loginstate
+      return this.$store.getters.getLoginState
     },
     loginname () {
-      return this.$store.state.user.loginname || ' '
+      return this.$store.getters.loginstate.loginname || ' '
     },
     userinfo () {
-      return this.$store.state.user
+      return this.$store.getters.loginstate || ' '
     }
   }
 }
