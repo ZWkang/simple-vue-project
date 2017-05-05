@@ -57,6 +57,7 @@
     .art-inf{
       .title{
         font-weight:600;
+        color:#333333;
       }
       position: relative;
       width: 80%;
@@ -74,6 +75,7 @@
       }
       span,em{
         display: inline-block;
+        color:#888888;
       }
       em{
         vertical-align:top;
@@ -132,7 +134,7 @@ export default {
   },
   mounted: function () {
     this.unfun = debounce(this.scrollAction, 1000)
-    // console.log('123')
+    // console.log('执行了 mounted')
     this.getList()
     window.addEventListener('scroll', this.unfun, false)
   },
@@ -149,7 +151,9 @@ export default {
     },
     getList: function () {
       this.scroll = false
+      // console.log('getlist 执行了一次')
       this.searchKey.tab = this.fixrouter(this.$route.params.artcle) || 'all'
+      // console.log(this.searchKey.tab)
       let requestdata = this.searchKey
       axios.get('https://cnodejs.org/api/v1/topics', {
         params: requestdata
@@ -222,7 +226,8 @@ export default {
       }
     }
   },
-  beforeDestory: function () {
+  destroyed: function () {
+    // console.log('i \' m out')
     window.removeEventListener('scroll', this.unfun, false)
   }
 }
