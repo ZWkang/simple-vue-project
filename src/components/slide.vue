@@ -1,39 +1,53 @@
 <template>
+
 	<div class="slide">
 		<div class="slide-item" :class="{'show-menu':show}">
-			<router-link  :to="{name: 'self', params: {loginname: loginname}}">
+			<router-link :to="{name: 'self', params: {loginname: loginname}}">
 				<div class="user-info" v-show="loginstate">
 					<img :src="userinfo.avatar_url" alt="">
-	             		</div>
+				</div>
 			</router-link>
-	             		<div class="base" v-show="loginstate">
-	             			<router-link  :to="{name: 'self', params: {loginname: loginname}}">
-	             			<p>{{userinfo.loginname}}</p>
-	             			</router-link>
-	             			<div class="baseinfo">
-		             			<!-- <span>积分：{{userinfo}}</span> -->
-		             			<!-- <span>2017年4月30日</span> -->
-	             			</div>
-	             		</div>
-			
-
+			<div class="base" v-show="loginstate">
+				<router-link :to="{name: 'self', params: {loginname: loginname}}">
+					<p>{{userinfo.loginname}}</p>
+				</router-link>
+				<div class="baseinfo">
+					<!-- <span>积分：{{userinfo}}</span> -->
+					<!-- <span>2017年4月30日</span> -->
+				</div>
+			</div>
 			<router-link :to="{name: 'login'}" class="gologin">
-             			<h2 v-if="!loginstate">登录</h2>
-             		</router-link>
-
+				<h2 v-if="!loginstate">登录</h2>
+			</router-link>
+	
 			<ul>
-				<li><router-link :to="{name: 'list', params: {artcle: 'all'}}">全部</router-link></li>
-				<li><router-link :to="{name: 'list', params: {artcle: 'good'}}">精华</router-link></li>
-				<li><router-link :to="{name: 'list', params: {artcle: 'ask'}}">回答</router-link></li>
-				<li><router-link :to="{name: 'list', params: {artcle: 'job'}}">招聘</router-link></li>
-				<li><router-link :to="{name: 'list', params: {artcle: 'share'}}">分享</router-link></li>
-				<li  v-if="loginstate"><router-link :to="{name: 'post'}">发布</router-link></li>
+				<li>
+					<router-link :to="{name: 'list', params: {artcle: 'all'}}">全部</router-link>
+				</li>
+				<li>
+					<router-link :to="{name: 'list', params: {artcle: 'good'}}">精华</router-link>
+				</li>
+				<li>
+					<router-link :to="{name: 'list', params: {artcle: 'ask'}}">回答</router-link>
+				</li>
+				<li>
+					<router-link :to="{name: 'list', params: {artcle: 'job'}}">招聘</router-link>
+				</li>
+				<li>
+					<router-link :to="{name: 'list', params: {artcle: 'share'}}">分享</router-link>
+				</li>
+				<li v-if="loginstate">
+					<router-link :to="{name: 'post'}">发布</router-link>
+				</li>
 				<li style="color:#555555">消息</li>
-				<li  v-if="loginstate" @click="logout">登出</li>
-				<li><router-link :to="{name: 'about'}">关于</router-link></li>
+				<li v-if="loginstate" @click="logout">登出</li>
+				<li>
+					<router-link :to="{name: 'about'}">关于</router-link>
+				</li>
 			</ul>
 		</div>
 	</div>
+
 </template>
 <style lang="scss">
 .slide{

@@ -1,23 +1,24 @@
 <template>
-<div class="postpage">
-	<div class="postpage-container">
-		<input v-model="title" type="text" placeholder="请输入标题" v-bind:class="{'active': errormsg}">
-		<div class="post-type">
-			<span>分类：</span>
-			<select v-model="type" >
-				<option value="ask">问答</option>
-				<option value="share">分享</option>
-				<option value="job">招聘</option>
-			</select>
-		</div>
-		<div class="post-content" >
-			<textarea name="" id="" cols="30" rows="10" v-model="content" v-bind:class="{'active': errormsg}">
-			</textarea>
-		</div>
 
-		<input type="submit" value="提交" @click.stop="topicaction">
+	<div class="postpage">
+		<div class="postpage-container">
+			<input v-model="title" type="text" placeholder="请输入标题" v-bind:class="{'active': errormsg}">
+			<div class="post-type">
+				<span>分类：</span>
+				<select v-model="type">
+					<option value="ask">问答</option>
+					<option value="share">分享</option>
+					<option value="job">招聘</option>
+				</select>
+			</div>
+			<div class="post-content">
+				<textarea name="" id="" cols="30" rows="10" v-model="content" v-bind:class="{'active': errormsg}">
+				</textarea>
+			</div>
+			<input type="submit" value="提交" @click.stop="topicaction">
+		</div>
 	</div>
-</div>
+
 </template>
 <style scoped lang="scss">
 .active{

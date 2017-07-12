@@ -5,27 +5,26 @@
 	</div>
 </template>
 <style lang="scss" scoped>
-	.container{
+	.container {
 		width: 200px;
 		height: 200px;
 		margin: 30px auto;
 		background-color: #fff;
-		text-align:center;
+		text-align: center;
 
-		a{
+		a {
 			text-decoration: none;
-			color:#111111;
-			font-size:32px;
-			margin-bottom:30px;
-			display:block;
-			border:1px solid black;
+			color: #111111;
+			font-size: 32px;
+			margin-bottom: 30px;
+			display: block;
+			border: 1px solid black;
 		}
-		p{
+		p {
 			text-align: left;
 			font-size: 24px;
 			font-weight: 600;
 		}
-
 	}
 </style>
 <script>

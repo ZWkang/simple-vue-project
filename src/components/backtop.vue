@@ -2,15 +2,15 @@
 	<div class="totop" v-show="showtop" @click="backtop"></div>
 </template>
 <style lang="scss">
-	.totop{
-		position: fixed;
-		width:40px;
-		height: 40px;
-		right: 15px;
-		bottom:4rem;
-		background-color: black;
-		border-radius:20px;
-        z-index:122;
+	.totop {
+	  position: fixed;
+	  width: 40px;
+	  height: 40px;
+	  right: 15px;
+	  bottom: 4rem;
+	  background-color: black;
+	  border-radius: 20px;
+	  z-index: 122;
 	}
 </style>
 <script>
