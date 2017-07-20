@@ -3,15 +3,33 @@
 </template>
 <style lang="scss">
 	.totop {
+    animation: ColorChange 10s ease-in 2s infinite;
 	  position: fixed;
 	  width: 40px;
 	  height: 40px;
 	  right: 15px;
 	  bottom: 4rem;
-	  background-color: black;
-	  border-radius: 20px;
+	  background-color: red;
+	  border-radius: 10px;
 	  z-index: 122;
-	}
+  }
+  @keyframes ColorChange {
+    0%{
+      background-color: purple;
+    }
+    25%{
+      background-color: yellow;
+    }
+    50%{
+      background-color: orange;
+    }
+    75%{
+      background-color: orange;
+    }
+    100%{
+      background-color: purple;
+    }
+  }
 </style>
 <script>
 import debounce from '@/utils.js'

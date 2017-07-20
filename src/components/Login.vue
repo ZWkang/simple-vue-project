@@ -10,50 +10,54 @@
 	</div>
 </template>
 <style lang="scss">
+
 .borderred {
-    border-color:red !important;
+  border-color: red !important;
 }
-.Login-container{
-    width: 90%;
+
+.Login-container {
+  width: 90%;
+  height: auto;
+  overflow: hidden;
+  margin: 0 auto;
+  .Login-item {
+    font-size: 0;
+    width: 100%;
     height: auto;
     overflow: hidden;
-    margin: 0 auto;
-    .Login-item{
-        font-size: 0;
-        width: 100%;
-        height: auto;
-        overflow: hidden;
-        .nologin{
-            h2{
-                font-size: 38px;
-                text-align: left;
-                margin:15px auto;
-            }
-            .accesstoken{
-                border:1px solid #ccc;
-                width : 90%;
-                height : 30px;
-                padding:5px 10px ;
-                border-radius: 5px;
-                font-size:20px;
-                font-weight:600;
-            }
-            .loginbutton{
-                -webkit-appearance: none;
-                display:block;
-                width:4rem;
-                height:3rem;
-                margin:10px auto 10px;;
-                padding:6px;
-                font-size:1rem;
-                font-weight:600;
-                background-color:#e1e1e1;
-                text-align:center;
-                vertical-align: top;
-            }
-        }
+    .nologin {
+      h2 {
+        font-size: 38px;
+        text-align: left;
+        margin: 15px auto;
+      }
+      .accesstoken {
+        border: 1px solid #ccc;
+        width: 90%;
+        height: 30px;
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 20px;
+        font-weight: 600;
+      }
+      .loginbutton {
+        -webkit-appearance: none;
+        display: block;
+        width: 4rem;
+        height: 3rem;
+        margin: 10px auto 10px;
+        ;
+        padding: 6px;
+        font-size: 1rem;
+        font-weight: 600;
+        background-color: #e1e1e1;
+        text-align: center;
+        vertical-align: top;
+      }
     }
+  }
 }
+
 </style>
 <script>
 import axios from 'axios'

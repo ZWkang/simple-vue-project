@@ -151,9 +151,7 @@ export default {
     },
     getList: function () {
       this.scroll = false
-      // console.log('getlist 执行了一次')
       this.searchKey.tab = this.fixrouter(this.$route.params.artcle) || 'all'
-      // console.log(this.searchKey.tab)
       let requestdata = this.searchKey
       axios.get('https://cnodejs.org/api/v1/topics', {
         params: requestdata
