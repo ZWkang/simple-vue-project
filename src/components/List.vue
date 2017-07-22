@@ -37,7 +37,7 @@
     display: inline-block;
     width: 100%;
     padding: 10px;
-    background: #fff;
+    background-color: #fff;
     border: 1px solid #e1e1e1;
     position:relative;
     .avatar{
@@ -111,7 +111,9 @@ import axios from 'axios'
 import loading from '@/components/loading'
 import debounce from '../utils.js'
 import backtop from '@/components/backtop'
+import Common from '@/components/Commond.mixin.js'
 export default {
+  mixins: [Common],
   data () {
     return {
       Index: 0,
@@ -134,7 +136,6 @@ export default {
   },
   mounted: function () {
     this.unfun = debounce(this.scrollAction, 1000)
-    // console.log('执行了 mounted')
     this.getList()
     window.addEventListener('scroll', this.unfun, false)
   },
@@ -143,7 +144,7 @@ export default {
   },
   methods: {
     fixrouter: function (str) {
-      const artlist = ['all', 'ask', 'share', 'job', 'good']
+      const artlist = ['all', 'ask', 'share', 'job', 'good', 'dev']
       if (!(artlist.find((value) => { return value === str }))) {
         str = 'all'
       }
@@ -156,66 +157,21 @@ export default {
       axios.get('https://cnodejs.org/api/v1/topics', {
         params: requestdata
       }).then((response) => {
-        this.artcleList = response.data['data']
+        const data = response.data['data']
+        this.artcleList = this.artcleList.concat(data)
+        console.log(data.length)
         this.scroll = true
         this.showLoading = false
       }, (err) => {
         console.log(err)
       })
     },
-    gettab: function (tab, good, top) {
-      let str = ''
-      if (top) {
-        str = '置顶'
-      } else if (good) {
-        str = '精华'
-      } else {
-        switch (tab) {
-          case 'share':
-            str = '分享'
-            break
-          case 'ask' :
-            str = '问答'
-            break
-          case 'job' :
-            str = '招聘'
-            break
-          default :
-            str = '全部'
-            break
-        }
-      }
-      return str
-    },
-    getLastTime: function (creatTime) {
-      let oldtime = new Date(creatTime)
-      let newtime = (new Date() - oldtime) / 1000
-      let month = Math.floor(newtime / 3600 / 24 / 30)
-      let day = Math.floor(newtime / 3600 / 24)
-      let hours = Math.floor(newtime / 3600)
-      let mins = Math.floor(newtime / 60)
-      let str = ''
-      if (hours === 0) {
-        if (mins <= 3) {
-          str = '刚刚'
-        } else {
-          str = mins + '分钟前'
-        }
-      } else if (day === 0) {
-        str = hours + '小时前'
-      } else if (month === 0) {
-        str = day + '天前'
-      } else {
-        str = month + '月前'
-      }
-      return str
-    },
     scrollAction: function () {
       if (this.scroll) {
         let totalheight = parseFloat(window.innerHeight) + parseFloat(window.scrollY)
         if (document.body.clientHeight <= totalheight + 10) {
           this.scroll = false
-          this.searchKey.limit += 20
+          this.searchKey.page += 1
           this.showLoading = true
           setTimeout(() => {
             this.getList()
@@ -225,7 +181,6 @@ export default {
     }
   },
   destroyed: function () {
-    // console.log('i \' m out')
     window.removeEventListener('scroll', this.unfun, false)
   }
 }

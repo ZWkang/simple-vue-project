@@ -1,5 +1,4 @@
 <template>
-
   <div class="header">
     <span class="header-icon" v-if="!backbtn" v-on:click="changeshow">♥</span>
     <span class="header-icon" v-if="backbtn" v-on:click="goback">←</span>
@@ -8,7 +7,6 @@
     <div class="slide-mask" v-if="showmenu" v-on:click.stop.prevent="changeshow"></div>
     <span class="header-message-tips" v-if="tipsnumber"></span>
   </div>
-
 </template>
 
 <style lang="scss" scoped>
@@ -17,6 +15,7 @@
   width: 100%;
   height: 3rem;
   z-index: 111;
+  position: relative;
   .header-icon {
     font-size: 2rem;
     z-index: 10;
@@ -36,7 +35,7 @@
   h4 {
     text-align: center;
     font-size: 2rem;
-    line-height: 2.5rem;
+    line-height: 3rem;
   }
   .slide-mask {
     position: fixed;
@@ -45,13 +44,12 @@
     z-index: 98;
     width: 100%;
     height: 100%;
-    background-color: rgba(221, 240, 237, 0.5);
+    background-color: rgba(221, 240, 237, 0.3);
   }
   .show-mask {
     display: block;
   }
 }
-
 </style>
 <script>
 import Slide from '@/components/slide'
@@ -88,7 +86,6 @@ export default {
       }
     },
     backbtn: function () {
-      // console.log(this.$route.name)
       const rname = this.$route.name
       if (rname !== 'list' && rname !== 'lists' && this.$route.name !== 'login' && this.$route.name !== 'home') {
         return true

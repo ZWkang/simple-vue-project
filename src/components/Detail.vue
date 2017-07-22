@@ -6,7 +6,6 @@
         <h2>{{ art.title }}
           <span class="collection" @click="is_collection">{{ collection.title }}</span>
         </h2>
-
         <div class="detailinfo">
           <span>发布于{{ getLastTime(art.create_at)}}</span>
           <span><router-link :to="{ name: 'self', params: {loginname: art.author}}">作者{{art.author}}</router-link></span>
@@ -35,7 +34,7 @@
               <span class="re-time">{{index+1}}楼 {{getLastTime(item.create_at)}}</span>
               <div class="replyhandle">
                 <em class="upbtn" @click="likeclick(item.id, index)" :class="{'islike':item.is_uped}">{{is_up(item.is_uped)}}</em>
-                <!-- <em class="deletebtn" v-if="loginname === item.author.loginname" >删</em> -->
+                 <em class="deletebtn" v-if="loginname === item.author.loginname" >删</em> 
                 <em class="replybtn" @click="changereplyitem(item.id)">回</em>
               </div>
             </div>
@@ -54,7 +53,6 @@
 <style lang="scss">
   div.detailbox {
     padding: 10px 10px;
-    border-radius: 10px;
     background: #fff;
     border: 1px solid #ccc;
     margin: 0 2px;
@@ -73,7 +71,6 @@
           font-size: 12px;
           border-radius: 2px;
           padding: 3px 5px;
-          float: right;
           box-shadow: 1px 1px #000;
         }
       }
@@ -187,7 +184,7 @@
     }
     .detailreplies {
       width: 100%;
-      margin-botton: 20px;
+      margin-bottom: 20px;
       .repliescount {
         font-size: 20px;
         padding: 15px 0;
@@ -201,7 +198,6 @@
           margin-top: 10px;
           img,
           span {
-            float: left;
             display: inline-block;
           }
           .re-time {
@@ -280,7 +276,9 @@
   import axios from 'axios'
   import loadings from '@/components/loading'
   import replyitem from '@/components/Reply'
+  import Common from '@/components/Commond.mixin.js'
   export default {
+    mixins: [Common],
     data () {
       return {
         loading: false,
@@ -351,7 +349,6 @@
               'accesstoken': this.$store.getters.loginstate.accesstoken,
               'topic_id': this.topid
             }
-            // console.log(param)
             axios.post('https://cnodejs.org/api/v1/topic_collect/collect', param).then((response) => {
               this.collection.is = true
               this.collection.title = '已收藏'
@@ -371,29 +368,6 @@
             })
           }
         }
-      },
-      getLastTime: function (creatTime) {
-        let oldtime = new Date(creatTime)
-        let newtime = (new Date() - oldtime) / 1000
-        let month = Math.floor(newtime / 3600 / 24 / 30)
-        let day = Math.floor(newtime / 3600 / 24)
-        let hours = Math.floor(newtime / 3600)
-        let mins = Math.floor(newtime / 60)
-        let str = ''
-        if (hours === 0) {
-          if (mins <= 3) {
-            str = '刚刚'
-          } else {
-            str = mins + '分钟前'
-          }
-        } else if (day === 0) {
-          str = hours + '小时前'
-        } else if (month === 0) {
-          str = day + '天前'
-        } else {
-          str = month + '月前'
-        }
-        return str
       }
     },
     mounted: function () {
@@ -412,7 +386,7 @@
         this.loading = !this.loading
         this.topid = this.$route.params.id
       }, (e) => {
-        console.log(e)
+        console.warn(e)
       })
       this.loginname = this.$store.getters.loginstate.loginname
       if (this.isLogin) {
@@ -425,7 +399,7 @@
             }
           }
         }, (e) => {
-          console.log(e)
+          console.warn(e)
         })
       }
     },

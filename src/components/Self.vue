@@ -11,7 +11,6 @@
 				</div>
 				<div class="userbase">
 					<p class="name">{{art.loginname}}</p>
-
 					<span>积分：{{art.score}}</span>
 					<span>注册时间：{{art.createday}}</span>
 				</div>
@@ -140,7 +139,6 @@
 				width: 80px;
 				height: 80px;
 				margin: 0 auto;
-				border-radius: 40px;
 			}
 		}
 		.userbase{
@@ -159,7 +157,6 @@
 	.usermessage-title{
 		margin-top:5px;
 		border: 2px solid #ccc;
-		border-radius: 8px 8px 0 0 ;
 		background-color: #fff;
 		padding: 10px;
 		font-size: 16px;
@@ -203,8 +200,10 @@
 
 </style>
 <script>
+import Common from '@/components/Commond.mixin.js'
 import axios from 'axios'
 export default {
+  mixins: [Common],
   data () {
     return {
       art: {
@@ -228,35 +227,11 @@ export default {
 
   },
   methods: {
-    getLastTime: function (creatTime) {
-      let oldtime = new Date(creatTime)
-      let newtime = (new Date() - oldtime) / 1000
-      let month = Math.floor(newtime / 3600 / 24 / 30)
-      let day = Math.floor(newtime / 3600 / 24)
-      let hours = Math.floor(newtime / 3600)
-      let mins = Math.floor(newtime / 60)
-      let str = ''
-      if (hours === 0) {
-        if (mins <= 3) {
-          str = '刚刚'
-        } else {
-          str = mins + '分钟前'
-        }
-      } else if (day === 0) {
-        str = hours + '小时前'
-      } else if (month === 0) {
-        str = day + '天前'
-      } else {
-        str = month + '月前'
-      }
-      return str
-    },
     getdata: function () {
       const username = this.$route.params.loginname
       // console.log(username)
       axios.get('https://cnodejs.org/api/v1/user/' + username).then((response) => {
         if (response.data.success) {
-          // console.log(response)
           const datas = response.data
           this.art.loginname = datas.data.loginname
           this.art.avatar_url = datas.data.avatar_url
@@ -266,14 +241,14 @@ export default {
           this.recents = datas.data.recent_topics.length === 0 ? false : datas.data.recent_topics
         }
       }, (e) => {
-        console.log(e)
+        console.warn(e)
       })
       axios.get('https://cnodejs.org/api/v1/topic_collect/' + username).then((response) => {
         if (response.data.success) {
           this.collections = response.data.data.length === 0 ? false : response.data.data
         }
       }, (e) => {
-        console.log(e)
+        console.warn(e)
       })
     }
   }

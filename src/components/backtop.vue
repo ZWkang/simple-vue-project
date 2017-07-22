@@ -1,7 +1,7 @@
 <template>
 	<div class="totop" v-show="showtop" @click="backtop"></div>
 </template>
-<style lang="scss">
+<style lang="scss" scoped>
 	.totop {
     animation: ColorChange 10s ease-in 2s infinite;
 	  position: fixed;

@@ -1,5 +1,4 @@
 <template>
-
 	<div class="postpage">
 		<div class="postpage-container">
 			<input v-model="title" type="text" placeholder="请输入标题" v-bind:class="{'active': errormsg}">
@@ -18,7 +17,6 @@
 			<input type="submit" value="提交" @click.stop="topicaction">
 		</div>
 	</div>
-
 </template>
 <style scoped lang="scss">
 .active{
@@ -96,7 +94,6 @@
 				padding:2px;
 				width:80%;
 				resize:none;
-				border-radius:10px;
 				&:focus{
 					border:1px solid #0099ff;
 				}
@@ -169,6 +166,9 @@ export default {
       }
     },
     posttopic: function () {
+      if (!this.content || !this.title) {
+        return
+      }
       if (this.type === 'ask' || this.type === 'all' || this.type === 'share') {
         const params = {
           accesstoken: this.uuidkey,

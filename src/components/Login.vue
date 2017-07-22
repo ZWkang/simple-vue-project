@@ -14,7 +14,6 @@
 .borderred {
   border-color: red !important;
 }
-
 .Login-container {
   width: 90%;
   height: auto;
@@ -27,7 +26,7 @@
     overflow: hidden;
     .nologin {
       h2 {
-        font-size: 38px;
+        font-size: 1.5rem;
         text-align: left;
         margin: 15px auto;
       }
@@ -46,13 +45,12 @@
         width: 4rem;
         height: 3rem;
         margin: 10px auto 10px;
-        ;
         padding: 6px;
         font-size: 1rem;
-        font-weight: 600;
-        background-color: #e1e1e1;
+        font-weight: bold;
+        background-color: #dddfff;
         text-align: center;
-        vertical-align: top;
+        border: none;
       }
     }
   }
@@ -77,6 +75,9 @@ export default {
   mounted () {},
   methods: {
     loginaccount: function () {
+      if (!this.accesstoken) {
+        return
+      }
       axios.post('https://cnodejs.org/api/v1/accesstoken', {'accesstoken': this.accesstoken.trim()}).then((response) => {
         const reps = {
           'accesstoken': this.accesstoken.trim(),

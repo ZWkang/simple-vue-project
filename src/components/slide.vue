@@ -46,6 +46,7 @@
 </template>
 <style lang="scss">
 
+
 .slide {
 	.slide-item {
 		position: fixed;
@@ -133,9 +134,9 @@
 	}
 }
 
+
 </style>
 <script>
-// import {mapState} from 'vuex'
 export default {
   props: {
     show: {

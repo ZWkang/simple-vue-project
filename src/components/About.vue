@@ -11,7 +11,6 @@
 	margin: 30px auto;
 	background-color: #fff;
 	text-align: center;
-
 	a {
 		text-decoration: none;
 		color: #111111;

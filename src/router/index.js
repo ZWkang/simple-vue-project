@@ -10,6 +10,7 @@ import list from '@/components/List'
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -47,7 +48,7 @@ export default new Router({
       component: list
     },
     {
-      path: '/self/:loginname',
+      path: '/user/:loginname',
       name: 'self',
       component: self
     },
