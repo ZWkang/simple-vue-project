@@ -8,6 +8,7 @@
 					<option value="ask">问答</option>
 					<option value="share">分享</option>
 					<option value="job">招聘</option>
+					<option value="dev">客户端测试</option>
 				</select>
 			</div>
 			<div class="post-content">
@@ -140,7 +141,6 @@ export default {
       } else {
         this.errormsg = true
         setTimeout(() => {
-          // console.log(222)
           this.errormsg = false
         }, 1000)
       }
@@ -159,7 +159,6 @@ export default {
         }, (e) => {
           this.errormsg = true
           setTimeout(() => {
-            // console.log(222)
             this.errormsg = false
           }, 1000)
         })
@@ -169,7 +168,7 @@ export default {
       if (!this.content || !this.title) {
         return
       }
-      if (this.type === 'ask' || this.type === 'all' || this.type === 'share') {
+      if (this.type === 'ask' || this.type === 'all' || this.type === 'share' || this.type === 'dev') {
         const params = {
           accesstoken: this.uuidkey,
           content: this.content,
@@ -181,7 +180,6 @@ export default {
         }, (e) => {
           this.errormsg = true
           setTimeout(() => {
-            // console.log(222)
             this.errormsg = false
           }, 1000)
         })

@@ -229,7 +229,6 @@ export default {
   methods: {
     getdata: function () {
       const username = this.$route.params.loginname
-      // console.log(username)
       axios.get('https://cnodejs.org/api/v1/user/' + username).then((response) => {
         if (response.data.success) {
           const datas = response.data

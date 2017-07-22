@@ -135,7 +135,7 @@ export default {
     'v-top': backtop
   },
   mounted: function () {
-    this.unfun = debounce(this.scrollAction, 1000)
+    this.unfun = debounce(this.scrollAction, 500)
     this.getList()
     window.addEventListener('scroll', this.unfun, false)
   },

@@ -78,6 +78,8 @@ export default {
           return '精华'
         } else if (artcles === 'job') {
           return '招聘'
+        } else if (artcles === 'div') {
+          return '客户端测试'
         } else {
           return 'cnodejs'
         }
