@@ -4,8 +4,9 @@
     <div class="detailbox" v-show="loading">
       <div class="detailtitle">
         <h2>{{ art.title }}
-          <span class="collection" @click="is_collection">{{ collection.title }}</span>
+  
         </h2>
+        <span class="collection" @click="is_collection">{{ collection.title }}</span>
         <div class="detailinfo">
           <span>发布于{{ getLastTime(art.create_at)}}</span>
           <span>
@@ -37,7 +38,7 @@
               <span class="re-time">{{index+1}}楼 {{getLastTime(item.create_at)}}</span>
               <div class="replyhandle">
                 <em class="upbtn" @click="likeclick(item.id, index)" :class="{'islike':item.is_uped}">{{is_up(item.is_uped)}}</em>
-                <em class="deletebtn" v-if="loginname === item.author.loginname">删</em>
+                <!--<em class="deletebtn" v-if="loginname === item.author.loginname">删</em>-->
                 <em class="replybtn" @click="changereplyitem(item.id)">回</em>
               </div>
             </div>
@@ -56,8 +57,7 @@
 <style lang="scss">
 div.detailbox {
   padding: 10px 10px;
-  background: #fff;
-  border: 1px solid #ccc;
+  background: #fff; // border: 1px solid #ccc;
   margin: 0 2px;
   overflow: hidden;
   .detailtitle {
@@ -65,17 +65,15 @@ div.detailbox {
     padding: 5px 0px;
     h2 {
       font-size: 20px;
-      font-weight: 700;
-      margin-left: 6px;
-      .collection {
-        cursor: pointer;
-        display: inline-block;
-        background-color: #00b0f0;
-        font-size: 12px;
-        border-radius: 2px;
-        padding: 3px 5px;
-        box-shadow: 1px 1px #000;
-      }
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+    .collection {
+      background-color: #00bbdd;
+      font-size: 14px;
+      border-radius: 2px;
+      padding: 3px 5px;
+      box-shadow: 1px 1px #000;
     }
     .detailinfo {
       display: flex;
@@ -84,27 +82,25 @@ div.detailbox {
         flex: 1;
         display: block;
         font-size: 12px;
-        color: #aaa;
+        color: #0f0f0f;
         text-align: center;
         text-overflow: hidden;
       }
       span:nth-child(4n+2),
       span:nth-child(4n+1) {
         flex: 2;
-      }
-      span:nth-child(4n+2) {
         a {
-          color: #aaa;
+          color: #0f0f0d;
           text-decoration: none;
         }
       }
     }
   }
   .detailcontent {
-    width: 100%;
-    margin: 0 0px;
+    // width: 100%;
+    margin: 0;
     border-top: 1px #000 solid;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 23px;
     padding: 10px 0;
     border-bottom: 1px #000 solid;
@@ -166,12 +162,12 @@ div.detailbox {
     }
   }
   .detailoperation {
-    width: 100%;
+    // width: 100%;
     height: 2rem;
     line-height: 2rem;
     ul {
-      width: 100%;
-      height: 100%;
+      // width: 100%;
+      // height: 100%;
       display: flex;
       li {
         flex: 1;
@@ -179,6 +175,7 @@ div.detailbox {
         border-top: 0;
         text-align: center;
         a {
+          color: darkslateblue;
           text-decoration: none;
           display: block;
         }
@@ -186,7 +183,7 @@ div.detailbox {
     }
   }
   .detailreplies {
-    width: 100%;
+    // width: 100%;
     margin-bottom: 20px;
     .repliescount {
       font-size: 20px;
@@ -220,7 +217,6 @@ div.detailbox {
           right: 0;
           top: 3px;
           em {
-            cursor: pointer;
             padding: 3px;
             color: #fff;
             font-size: 14px;
@@ -252,13 +248,12 @@ div.detailbox {
         }
         .repliescontent {
           background-color: #f0f0f0;
-          padding: 6px 5px;
+          padding: 6px 8px;
           border-radius: 8px;
           position: relative;
           font-size: 14px;
           line-height: 1.5rem;
           letter-spacing: 2px;
-          font-weight: 700;
           word-wrap: break-word;
           &:after {
             border-width: 0.5rem;

@@ -127,7 +127,7 @@
 }
 .usermessage{
 	overflow: hidden;
-	margin: 0 5px;
+	// margin: 0 5px;
 	.userinfobox{
 		padding: 10px 0;
 		border: 2px solid #ccc;
@@ -155,7 +155,7 @@
 		}
 	}
 	.usermessage-title{
-		margin-top:5px;
+		// margin-top:5px;
 		border: 2px solid #ccc;
 		background-color: #fff;
 		padding: 10px;
