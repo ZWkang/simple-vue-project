@@ -7,7 +7,7 @@
 			</div>
 			<div class="userinfobox">
 				<div class="useravatar">
-					<img :src="art.avatar_url" alt="">
+					<img :data-src="art.avatar_url" alt="">
 				</div>
 				<div class="userbase">
 					<p class="name">{{art.loginname}}</p>
@@ -23,7 +23,7 @@
 			<div class="usertopicsbox">
 				<div class="topicsitem" v-for="item in recents">
 					<router-link :to="{ name: 'self', params: { loginname : item.author.loginname }}" class="avatar">
-						<img :src="item.author.avatar_url" alt="">
+						<img :data-src="item.author.avatar_url" alt="">
 					</router-link>
 					<div class="art-inf">
 						<router-link :to="{ name: 'detail', params: { id : item.id}}" class="title">{{item.title}}</router-link>
@@ -43,7 +43,7 @@
 			<div class="userrepliesbox">
 				<div class="userrepliesitem" v-for="item in replies">
 					<router-link :to="{ name: 'self', params: { loginname : item.author.loginname }}" class="avatar">
-						<img :src="item.author.avatar_url" alt="">
+						<img :data-src="item.author.avatar_url" alt="">
 					</router-link>
 					<div class="art-inf">
 						<router-link :to="{ name: 'detail', params: { id : item.id}}" class="title">{{item.title}}</router-link>
@@ -63,7 +63,7 @@
 			<div class="usercollectionbox">
 				<div class="usercollectionitem" v-for="item in collections">
 					<router-link :to="{ name: 'self', params: { loginname : item.author.loginname }}" class="avatar">
-						<img :src="item.author.avatar_url" alt="">
+						<img :data-src="item.author.avatar_url" alt="">
 					</router-link>
 					<div class="art-inf">
 						<router-link :to="{ name: 'detail', params: { id : item.id}}" class="title">{{item.title}}</router-link>
@@ -219,6 +219,12 @@ export default {
   },
   created: function () {
     this.getdata()
+  },
+  updated: function () {
+    this.lazyload.init()
+  },
+  destroyed: function () {
+    this.lazyload.cache = []
   },
   watch: {
     '$route': 'getdata'

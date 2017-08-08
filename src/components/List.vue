@@ -1,46 +1,46 @@
 <template>
-	<div>
-		<div class="artlist"> 
-			<router-link v-for="item in artcleList" :to="{name:'detail',params:{id:item.id}}" :key="item.id" class="linkbtn">
-				<div class="artlistCon" >
-					<router-link :to="{ name: 'self', params: {loginname: item.author.loginname}}">
-						<div class="avatar">
-							<img :src="item.author.avatar_url" alt="">
-						</div>
-					</router-link>
-					<div class="art-inf">
-						<em :class="{good : item.good, top : item.top}">
-							{{gettab(item.tab, item.good, item.top)}}
-						</em>
-						<a class="title" href="javascript:void(0)">{{item.title}}</a>
-						<span class="rp-count">{{item.reply_count}}/{{item.visit_count}}</span>
-						<span class="last-time">{{ getLastTime(item.create_at)}}</span>
-					</div>
-				</div>
-			</router-link>
-			<v-loading :isLoading="!scroll" :styles="stylea"></v-loading>
-		</div>
-		<v-top></v-top>
-	</div>
+  <div>
+    <div class="artlist">
+      <router-link v-for="item in artcleList" :to="{name:'detail',params:{id:item.id}}" :key="item.id" class="linkbtn">
+        <div class="artlistCon">
+          <router-link :to="{ name: 'self', params: {loginname: item.author.loginname}}">
+            <div class="avatar">
+              <img :data-src="item.author.avatar_url" alt="">
+            </div>
+          </router-link>
+          <div class="art-inf">
+            <em :class="{good : item.good, top : item.top}">
+              {{gettab(item.tab, item.good, item.top)}}
+            </em>
+            <a class="title" href="javascript:void(0)">{{item.title}}</a>
+            <span class="rp-count">{{item.reply_count}}/{{item.visit_count}}</span>
+            <span class="last-time">{{ getLastTime(item.create_at)}}</span>
+          </div>
+        </div>
+      </router-link>
+      <v-loading :isLoading="!scroll" :styles="stylea"></v-loading>
+    </div>
+    <v-top></v-top>
+  </div>
 </template>
 <style lang="scss" scoped>
-.artlist{
+.artlist {
   overflow: hidden;
   margin: 0 auto;
-  .linkbtn{
-    display:block;
+  .linkbtn {
+    display: block;
   }
-  .artlistCon{
-    box-sizing:border-box;
-    overflow:hidden;
+  .artlistCon {
+    box-sizing: border-box;
+    overflow: hidden;
     width: 100%;
     display: inline-block;
     width: 100%;
     padding: 10px;
     background-color: #fff;
     border: 1px solid #e1e1e1;
-    position:relative;
-    .avatar{
+    position: relative;
+    .avatar {
       display: inline-block;
       position: absolute;
       left: 10px;
@@ -48,22 +48,22 @@
       width: 2rem;
       height: 2rem;
       z-index: 5;
-      img{
+      img {
         display: inline-block;
         width: 100%;
         height: 100%;
       }
     }
-    .art-inf{
-      .title{
-        font-weight:600;
-        color:#333333;
+    .art-inf {
+      .title {
+        font-weight: 600;
+        color: #333333;
       }
       position: relative;
       width: 80%;
       height: 100%;
       padding-left: 2.5rem;
-      a{
+      a {
         display: inline-block;
         overflow: hidden;
         width: 80%;
@@ -71,31 +71,33 @@
         font-size: 1rem;
         line-height: 1.2rem;
         white-space: nowrap;
-        text-overflow:ellipsis;
+        text-overflow: ellipsis;
       }
-      span,em{
+      span,
+      em {
         display: inline-block;
-        color:#888888;
+        color: #888888;
       }
-      em{
-        vertical-align:top;
-        padding:4px 4px;
+      em {
+        vertical-align: top;
+        padding: 4px 4px;
         background: #e5e5e5;
         border-radius: 3px;
         color: #999;
         font-size: 0.8rem;
       }
-      .good,.top{
+      .good,
+      .top {
         background: #80bd01;
         color: #fff;
       }
-      .rp-count{
-        vertical-align:left;
+      .rp-count {
+        vertical-align: left;
         margin-left: 15%;
         font-size: 13px;
         padding: 2px 4px;
       }
-      .last-time{
+      .last-time {
         position: absolute;
         right: 0;
         bottom: 0;
@@ -120,14 +122,16 @@ export default {
       scroll: false,
       searchKey: {
         'page': 1,
-        'limit': 20
+        'limit': 20,
+        'tab': 'all'
       },
       stylea: {
         'width': '40px',
         'height': '40px'
       },
       artcleList: [],
-      unfun: null
+      unfun: null,
+      cachekey: 'all'
     }
   },
   components: {
@@ -135,6 +139,7 @@ export default {
     'v-top': backtop
   },
   mounted: function () {
+    // console.log(lazyload)
     this.unfun = debounce(this.scrollAction, 500)
     this.getList()
     window.addEventListener('scroll', this.unfun, false)
@@ -158,8 +163,13 @@ export default {
         params: requestdata
       }).then((response) => {
         const data = response.data['data']
-        this.artcleList = this.artcleList.concat(data)
-        console.log(data.length)
+        if (this.searchKey.tab === this.cachekey) {
+          this.artcleList = this.artcleList.concat(data)
+        } else {
+          this.artcleList = data
+          this.cachekey = this.searchKey.tab
+        }
+        // console.log(this.artcleList)
         this.scroll = true
         this.showLoading = false
       }, (err) => {
@@ -180,8 +190,15 @@ export default {
       }
     }
   },
+  beforeUpdate: function () {
+
+  },
   destroyed: function () {
     window.removeEventListener('scroll', this.unfun, false)
+    this.lazyload.cache = []
+  },
+  updated: function () {
+    this.lazyload.init({})
   }
 }
 </script>

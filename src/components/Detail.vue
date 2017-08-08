@@ -32,7 +32,7 @@
           <li v-for="(item,index) in art.reply">
             <div class="author_content">
               <router-link :to="{ name: 'self', params: {loginname: item.author.loginname}}">
-                <img :src="item.author.avatar_url" alt="">
+                <img :data-src="item.author.avatar_url" alt="">
                 <span>{{ item.author.loginname}}</span>
               </router-link>
               <span class="re-time">{{index+1}}楼 {{getLastTime(item.create_at)}}</span>
@@ -43,7 +43,7 @@
               </div>
             </div>
             <div class="replies">
-              <div class="repliescontent" v-html="item.content">
+              <div class="repliescontent" v-html="changeContentUrl(item.content)">
               </div>
             </div>
             <v-reply v-bind:reply_to="'@' + item.author.loginname" v-bind:reply_id="item.id" :topic_id="topid" v-if="item.id === replyingid && isLogin"></v-reply>
@@ -275,6 +275,7 @@ import axios from 'axios'
 import loadings from '@/components/loading'
 import replyitem from '@/components/Reply'
 import Common from '@/components/Commond.mixin.js'
+// import lazyload from '@/lib/lazyload/lazy.js'
 export default {
   mixins: [Common],
   data () {
@@ -310,6 +311,12 @@ export default {
     title: String
   },
   methods: {
+    changeContentUrl: function (html) {
+      // console.log(html)
+      html = html.replace(/<a\shref="(\S+)">\S+<\/a>/g, function (s) { return s.replace(RegExp.$1, '#' + RegExp.$1) })
+      // console.log(html)
+      return html
+    },
     isyourself: function (authorid) {
       return authorid === this.$store.getters.loginstate.id
     },
@@ -366,6 +373,12 @@ export default {
         }
       }
     }
+  },
+  updated: function () {
+    this.lazyload.init({})
+  },
+  destroyed: function () {
+    this.lazyload.cache = []
   },
   mounted: function () {
     const topic = this.$route.params.id
