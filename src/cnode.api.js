@@ -9,5 +9,5 @@ export default {
     GET_TOPIC_LIST_URL: 'https://cnodejs.org/api/v1/topics',
     UPDATE_TOPIC_URL: 'https://cnodejs.org/api/v1/topics/update',
     POST_TOPIC_URL: 'https://cnodejs.org/api/v1/topics',
-    REPLY_TOPIC_URL: topic_id =>{'https://cnodejs.org/api/v1/topics'+topic_id+'/replies'},
+    REPLY_TOPIC_URL: topic_id => { 'https://cnodejs.org/api/v1/topics' + topic_id + '/replies' },
 }

@@ -32,6 +32,9 @@
 				<li>
 					<router-link :to="{name: 'list', params: {artcle: 'share'}}">分享</router-link>
 				</li>
+				<li>
+					<router-link :to="{name: 'list', params: {artcle: 'dev'}}">客户端测试</router-link>
+				</li>
 				<li v-if="loginstate">
 					<router-link :to="{name: 'post'}">发布</router-link>
 				</li>
