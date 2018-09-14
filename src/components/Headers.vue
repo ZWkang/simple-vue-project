@@ -1,7 +1,7 @@
 <template>
   <div class="header">
-    <span class="header-icon" v-if="!backbtn" v-on:click="changeshow">♥</span>
-    <span class="header-icon" v-if="backbtn" v-on:click="goback">←</span>
+    <span class="header-icon more" v-if="!backbtn" v-on:click="changeshow"></span>
+    <span class="header-icon back" v-if="backbtn" v-on:click="goback"></span>
     <h4>{{ title }}</h4>
     <v-slide v-bind:show="showmenu"></v-slide>
     <div class="slide-mask" v-if="showmenu" v-on:click.stop.prevent="changeshow"></div>
@@ -11,18 +11,31 @@
 
 <style lang="scss" scoped>
 .header {
-  border-bottom: 2px solid #e1e1e1;
+  border-bottom: 1px solid #e1e1e1;
   width: 100%;
   height: 3rem;
   z-index: 111;
-  position: relative;
+  position: sticky;
+  top: 0;
+  background: #fff;
+
   .header-icon {
     font-size: 2rem;
     z-index: 10;
+    display: inline-block;
     position: absolute;
     margin: 5px 10px;
-    top: 0;
-    left: 0;
+    width:40px;
+    height:40px;
+    background-repeat: no-repeat;
+    background-size: 40px 40px;
+  }
+  > .back{
+    background-image: url('../assets/back.svg');
+    background-size: 20px 35px;
+  }
+  > .more{
+    background-image: url('../assets/more.svg');
   }
   .header-message-tips {
     font-size: 2rem;
@@ -34,7 +47,7 @@
   }
   h4 {
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.3rem;
     line-height: 3rem;
   }
   .slide-mask {

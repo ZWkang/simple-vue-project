@@ -1,5 +1,7 @@
 <template>
-	<div class="totop" v-show="showtop" @click="backtop"></div>
+	<div class="totop" v-show="showtop" @click="backtop">
+    <img src="../assets/rocket.svg"/>
+  </div>
 </template>
 <style lang="scss" scoped>
 	.totop {
@@ -9,25 +11,9 @@
 	  height: 40px;
 	  right: 1rem;
 	  bottom: 4rem;
-	  background-color: red;
-	  border-radius: 10px;
 	  z-index: 122;
-  }
-  @keyframes ColorChange {
-    0%{
-      background-color: purple;
-    }
-    25%{
-      background-color: yellow;
-    }
-    50%{
-      background-color: orange;
-    }
-    75%{
-      background-color: orange;
-    }
-    100%{
-      background-color: purple;
+    > img{
+      width: 60px;
     }
   }
 </style>
