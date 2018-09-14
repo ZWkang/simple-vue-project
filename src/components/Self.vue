@@ -130,7 +130,7 @@
 	// margin: 0 5px;
 	.userinfobox{
 		padding: 10px 0;
-		border: 2px solid #ccc;
+		border: 1px solid #ccc;
 		border-top:0;
 		.useravatar{
 			margin: 0 auto;
@@ -139,6 +139,7 @@
 				width: 80px;
 				height: 80px;
 				margin: 0 auto;
+				border-radius: 50%;
 			}
 		}
 		.userbase{
@@ -156,15 +157,16 @@
 	}
 	.usermessage-title{
 		// margin-top:5px;
-		border: 2px solid #ccc;
+		border-left: 1px solid #ccc;
+		border-right: 1px solid #ccc;
 		background-color: #fff;
-		padding: 10px;
+		padding: 10px 0 15px 0;
 		font-size: 16px;
 		color: green;
 		font-weight:600;
 	}
 	.usertopicsbox{
-		border:2px solid #e1e1e1;
+		border:1px solid #e1e1e1;
 		border-top:0;
 		.topicsitem{
 			@include basestyle;
@@ -172,7 +174,7 @@
 	}
 	.userreplies{
 		.userrepliesbox{
-			border:2px solid #e1e1e1;
+			border:1px solid #e1e1e1;
 			border-top:0;
 			.userrepliesitem{
 				@include basestyle;
@@ -181,7 +183,7 @@
 	}
 	.usercollection{
 		.usercollectionbox{
-			border:2px solid #e1e1e1;
+			border:1px solid #e1e1e1;
 			border-top:0;
 			.usercollectionitem{
 				@include basestyle;

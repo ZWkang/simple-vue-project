@@ -97,7 +97,9 @@ div.detailbox {
     }
   }
   .detailcontent {
-    // width: 100%;
+    h1,h2,h3,h4,h5,h6,p,span{
+      line-height: 1.2;
+    }
     margin: 0;
     border-top: 1px #000 solid;
     font-size: 14px;
@@ -123,7 +125,7 @@ div.detailbox {
     img {
       width: 100%;
       margin: 0 auto;
-      height: auto
+      height: auto;
     }
     table {
       padding: 0;
@@ -248,11 +250,11 @@ div.detailbox {
         }
         .repliescontent {
           background-color: #f0f0f0;
-          padding: 6px 8px;
+          padding: 10px 10px;
           border-radius: 8px;
           position: relative;
           font-size: 14px;
-          line-height: 1.5rem;
+          line-height: 1.6rem;
           letter-spacing: 2px;
           word-wrap: break-word;
           &:after {

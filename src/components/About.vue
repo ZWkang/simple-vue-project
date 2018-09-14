@@ -17,7 +17,6 @@
 		font-size: 32px;
 		margin-bottom: 30px;
 		display: block;
-		border: 1px solid black;
 	}
 	p {
 		text-align: left;
